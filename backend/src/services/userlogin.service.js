@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
-import User from "../db/models/user";
-import { loginInpu_Validater } from "../validators/filldetails.validators";
+import User from "../db/models/user.js";
+import { loginInpu_Validater } from "../validators/filldetails.validators.js";
 import { StatusCodes } from "http-status-codes";
 import jwt from "jsonwebtoken";
 

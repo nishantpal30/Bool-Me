@@ -1,13 +1,19 @@
-import { getEmailConfigStatus } from "../config/getEmailconfigStatus";
+import { getEmailConfigStatus } from "../config/getEmailconfigStatus.js";
 import getPlatformSender from "../utils/getplatformsender.js";
 import getReplyToEmail from "../utils/getReplytoEmail.js";
 import https from "https";
 import dotenv from "dotenv";
 
+
 dotenv.config();
 
-const BREVO_TRANS_EMAIL_URI = " https://api.brevo.com/v3/smtp/email";
+const BREVO_TRANS_EMAIL_URI = "https://api.brevo.com/v3/smtp/email";
+const getBrevoErrorMessage = (statusCode, parsed) => {
+  const message =
+    parsed.message || `Brevo email failed with status ${statusCode}`;
 
+  return String(message);
+};
 const sendsEmail = ({
   to,
   subject,
@@ -39,7 +45,8 @@ const sendsEmail = ({
     sendingData.replyToEmail = checkReplytoEmail;
   }
   const emailpastData = JSON.stringify(sendingData);
-
+  // console.log(emailpastData);
+// console.log(process.env.BREVO_API_KEY);
   return new Promise((resolve, reject) => {
     const req = https.request(
       BREVO_TRANS_EMAIL_URI,
@@ -47,7 +54,7 @@ const sendsEmail = ({
         method: "POST",
         headers: {
           Accept: "application/json",
-          "api-key": process.env.BREVO_API_KEY,
+          "api-key":process.env.BREVO_API_KEY,
           "Content-Type": "application/json",
           "Content-Length": Buffer.byteLength(emailpastData),
         },
@@ -59,6 +66,7 @@ const sendsEmail = ({
           let parsed = {};
           try {
             parsed = JSON.parse(body);
+           
           } catch (e) {}
 
           if (res.statusCode >= 200 && res.statusCode < 300) {

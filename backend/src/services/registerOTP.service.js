@@ -4,8 +4,11 @@ import { emailOTP } from "./emailOTP.js";
 
 
 export const registerOTP_Service = async (email) =>{
-    const {userEmail} = email
- const registerEmail_Validation = await emailValidation(userEmail)
+   
+    const {userEmail} = email;
+     
+ const registerEmail_Validation = await emailValidation(userEmail);
+
  if(registerEmail_Validation.success){
     const OTP_Request = await emailOTP({email:userEmail,purpose:"registration"})
     return{

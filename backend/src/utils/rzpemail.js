@@ -1,4 +1,4 @@
-import ParseEmail from "./parseEmail";
+import ParseEmail from "./parseEmail.js";
 
 
 const RzpEmailAddress = (rzpEmail = '') => {

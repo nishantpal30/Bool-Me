@@ -1,4 +1,4 @@
-import EmailOtp from "../db/models/emailOtp";
+import EmailOtp from "../db/models/emailOtp.js";
 import { normalizedEmail } from "../utils/normalizedEMail.js";
 import bcrypt from "bcryptjs";
 

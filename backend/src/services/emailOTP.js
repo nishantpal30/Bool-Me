@@ -10,11 +10,15 @@ const OTP_TIME = 10;
 const otpGenerater = () =>{ return crypto.randomInt(100000,1000000).toString()};
 
 export const emailOTP = async ({email,purpose}) =>{
+   console.log(email)
 const EMAIL = normalizedEmail(email);
+
+console.log(EMAIL)
 if(!EMAIL){
     throw new Error("Email is needed!");
 }
 const OTP_CODE = otpGenerater();
+
 const OTP_CODE_HASH = await bcrypt.hash(OTP_CODE, 10);
 const OTP_EXPIRESSAT = new Date(Date.now() + OTP_TIME *60*1000);
 
@@ -26,7 +30,7 @@ await EmailOtp.create({
     expireAt: OTP_EXPIRESSAT,
 });
 // after generate otp code notification function will we call
-await sendOtpNotification({email:EMAIL,OTP_CODE,purpose});
+await sendOtpNotification({email:EMAIL, otp_code:OTP_CODE, purpose});
 return{
     success:true,
     email:EMAIL,

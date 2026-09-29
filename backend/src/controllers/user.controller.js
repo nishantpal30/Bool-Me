@@ -21,13 +21,15 @@ export const registerUser = async (req, res) => {
 export const registerOTP = async (req, res) => {
   try {
     const { email } = req.body;
+    
     const OTPemail = email?.toLowerCase().trim();
+   
     if (!OTPemail) {
       return res
         .status(StatusCodes.BAD_REQUEST)
         .json({ success: false, message: "Email is required" });
     }
-    const registerOTP_Response = await registerOTP_Service(OTPemail);
+    const registerOTP_Response = await registerOTP_Service({userEmail:OTPemail});
     return res
       .status(registerOTP_Response.statusCode)
       .json(registerOTP_Response);
@@ -144,4 +146,19 @@ export const updateProfile = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+
+export const getMe = async (req, res) =>{
+    try {
+        const user = await User.findById(req.use.id).select("password");
+        if(!user){
+            return res.status(404)
+            .json({
+                message:"user not found",
+            });
+        };
+        res.json({user:toUserResponse(user)});
+    } catch (error) {
+          res.status(500).json({ message: 'Server error', error: error.message })
+    };
+  }
 

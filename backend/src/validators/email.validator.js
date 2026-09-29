@@ -2,6 +2,7 @@ import { StatusCodes } from "http-status-codes";
 import User from "../db/models/user.js"
 
 export const emailValidation = async (email) =>{
+    
 const userExist = await User.findOne({email});
 if(userExist){
     return {
