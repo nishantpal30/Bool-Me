@@ -21,8 +21,25 @@ if(emailcheck)
 };
 
 return{
-    message:"All details okk",
+    message:"All input details okk",
     success:true,
     statusCode:StatusCodes.OK
   };
+};
+
+export const loginInpu_Validater = (data) =>{
+    const { email , password} = data
+    if( !email || !password) {
+        return{
+            statusCode:StatusCodes.NOT_FOUND,
+            message:"Email and Password is required",
+            status:false,
+        }
+    }else{
+        return{
+    message:"All input details okk",
+    success:true,
+    statusCode:StatusCodes.OK
+  };
+    }
 }
