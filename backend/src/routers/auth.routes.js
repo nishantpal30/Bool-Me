@@ -4,9 +4,9 @@ import { getMe, loginUser, registerOTP, registerUser, updateProfile, verifyRegis
 
 const authrouter = express.Router();
 
-authrouter.post("/regiister",registerUser);
+authrouter.post("/register",registerUser);
 authrouter.post("/register/request-otp",registerOTP);
-authrouter.post("/regiister/verify-otp",verifyRegistration_OTP);
+authrouter.post("/register/verify-otp",verifyRegistration_OTP);
 authrouter.post("/login",loginUser);
 authrouter.post("/me",isAuthenticated,getMe);
 authrouter.post("/profile",isAuthenticated,updateProfile);

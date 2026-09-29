@@ -7,6 +7,7 @@ import { userLogin_Service } from "../services/userlogin.service.js";
 
 export const registerUser = async (req, res) => {
   try {
+    // console.log(req.body)
     const registerResponse = await registerService(req.body);
     return res.status(registerResponse.statusCode).json(registerResponse);
   } catch (error) {

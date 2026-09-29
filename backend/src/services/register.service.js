@@ -14,26 +14,29 @@ export const registerService = async (data) => {
     businessName,
     businessDescription,
     timezone,
-    emailotp,
+    emailOtp,
   } = data;
-  const filldetailsVerify = filldetailsVerification(data);
+  const filldetailsVerify = await filldetailsVerification(data);
   if (!filldetailsVerify.success) {
     return {
-      message: filldetailsVerification.message,
-      status: filldetailsVerification.status,
-      statusCode: filldetailsVerification.statusCode,
+      message: filldetailsVerify.message,
+      status: filldetailsVerify.status,
+      statusCode: filldetailsVerify.statusCode,
     };
   }
 
   const userEmail = email.toLowerCase().trim();
-  const value = {
-    userEmail,
-    purpose: "registration",
-    emailotp,
-    consume: true,
-  };
-
-  const OTPverification = otpvalidators(value);
+  // const value = {
+  //   userEmail,
+  //   purpose: "registration",
+  //   otp_Code:emailotp,
+  //   consume: true,
+  // };
+  // console.log(emailOtp);
+  const OTPverification = await otpvalidators({ email: userEmail,
+    purpose:"registration",
+    emailOtp,
+    consume:true});
   if (!OTPverification.success) {
     return {
       message: OTPverification.message,
