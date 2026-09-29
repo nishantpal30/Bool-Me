@@ -56,5 +56,6 @@ export const verifyOTP = async ({
     verified: true,
     email: normalEmail,
     message: "OTP verification success",
+  
   };
 };

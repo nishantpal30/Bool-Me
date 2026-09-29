@@ -69,6 +69,6 @@ export const registerService = async (data) => {
   return {
     statusCode: StatusCodes.CREATED,
     message: "User is created successfully!",
-    createToken,
+    user,
   };
 };

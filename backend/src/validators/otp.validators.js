@@ -23,5 +23,6 @@ export const otpvalidators = async (value) => {
     statusCode: StatusCodes.OK,
     message: verifyOTPresponse.message,
     success: verifyOTPresponse.verified,
+ 
   };
 };
