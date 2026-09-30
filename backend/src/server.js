@@ -6,6 +6,10 @@ import { connectDB } from "./config/db.config.ts";
 import authrouter from "./routers/auth.routes.js";
 import serviceRoutes from "./routers/services.routes.js";
 import availabilityRoutes from "./routers/availability.routes.js";
+import calendarRoutes from "./routers/calendar.routes.js";
+import bookingRoutes from "./routers/booking.routes.js";
+import paymentRoutes from "./routers/payment.routes.js";
+import publicBookingRoutes from "./routers/public.routes.js"
 
 // Middleware 
 
@@ -17,7 +21,11 @@ app.use(cookieParser());
 // routes
 app.use("/api/auth",authrouter);
 app.use("/api/service",serviceRoutes);
-app.use("/api/availability",availabilityRoutes)
+app.use("/api/availability",availabilityRoutes);
+app.use("api/calendar",calendarRoutes);
+app.use("api/booking",bookingRoutes);
+app.use("api/payments",paymentRoutes);
+app.use("/api/public", publicBookingRoutes);
 
 
 
