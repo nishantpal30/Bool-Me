@@ -59,6 +59,7 @@ export const registerService = async (data) => {
     password: hashPassword,
     slug: finalslug,
     businessName: businessName || " ",
+    businessDiscription:businessDescription || " ",
     timezone: timezone || "Asia/Kolkata",
   });
   const createToken = jwt.sign(

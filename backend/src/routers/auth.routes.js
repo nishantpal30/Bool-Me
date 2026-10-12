@@ -8,7 +8,7 @@ authrouter.post("/register",registerUser);
 authrouter.post("/register/request-otp",registerOTP);
 authrouter.post("/register/verify-otp",verifyRegistration_OTP);
 authrouter.post("/login",loginUser);
-authrouter.post("/me",isAuthenticated,getMe);
-authrouter.post("/profile",isAuthenticated,updateProfile);
+authrouter.get("/me",isAuthenticated,getMe);
+authrouter.put("/profile",isAuthenticated,updateProfile);
 
 export default authrouter;

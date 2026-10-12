@@ -21,7 +21,7 @@ const emailOtpSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    expireAt: {
+    expiresAt: {
       type: Date,
       required: true,
       index: { expires: 0 },

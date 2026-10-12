@@ -27,7 +27,7 @@ await EmailOtp.create({
     email: EMAIL,
     purpose,
     codeHash: OTP_CODE_HASH,
-    expireAt: OTP_EXPIRESSAT,
+    expiresAt: OTP_EXPIRESSAT,
 });
 // after generate otp code notification function will we call
 await sendOtpNotification({email:EMAIL, otp_code:OTP_CODE, purpose});

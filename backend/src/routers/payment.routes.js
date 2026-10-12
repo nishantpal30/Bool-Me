@@ -5,7 +5,7 @@ import { getPaymentOverview, requestWithdrawal, updatePayoutDetails } from "../c
 const paymentRoutes = express.Router();
 
 paymentRoutes.get("/",isAuthenticated,getPaymentOverview);
-paymentRoutes.get("/payout-details",isAuthenticated,updatePayoutDetails);
-paymentRoutes.get("/withdrawls",isAuthenticated,requestWithdrawal);
+paymentRoutes.put("/payout-details",isAuthenticated,updatePayoutDetails);
+paymentRoutes.post("/withdrawls",isAuthenticated,requestWithdrawal);
 
 export default paymentRoutes;

@@ -6,6 +6,6 @@ import isAuthenticated from "../middlewares/isauth.middleware.js";
 const availabilityRoutes = express.Router();
 
 availabilityRoutes.get("/",isAuthenticated,listAvailabilty);
-availabilityRoutes.get("/",isAuthenticated,saveAvailability);
+availabilityRoutes.put("/",isAuthenticated,saveAvailability);
 
 export default availabilityRoutes;

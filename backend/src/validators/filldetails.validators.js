@@ -28,18 +28,21 @@ return{
 };
 
 export const loginInpu_Validater = (data) =>{
+  
     const { email , password} = data
     if( !email || !password) {
         return{
-            statusCode:StatusCodes.NOT_FOUND,
+            statusCode:StatusCodes.BAD_GATEWAY,
             message:"Email and Password is required",
-            status:false,
+            success:false,
         }
-    }else{
+    }
+
         return{
+            
     message:"All input details okk",
     success:true,
     statusCode:StatusCodes.OK
   };
-    }
+    
 }

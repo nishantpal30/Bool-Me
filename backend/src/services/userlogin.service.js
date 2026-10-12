@@ -5,9 +5,12 @@ import { StatusCodes } from "http-status-codes";
 import jwt from "jsonwebtoken";
 
 export const userLogin_Service = async (data) => {
+  // console.log(data)
   const { email, password } = data;
   const userLogin_Input = loginInpu_Validater(data);
+  
   if (userLogin_Input.success === false) {
+    // console.log(userLogin_Input)
     return {
       statusCode: userLogin_Input.statusCode,
       success: userLogin_Input.success,
@@ -18,8 +21,10 @@ export const userLogin_Service = async (data) => {
     const checkUser = await User.findOne({ email: userEmail });
     if (!checkUser) {
       return {
+        statusCode:StatusCodes.BAD_REQUEST,
         userLogin_Input,
         message: "User does not exist with this email",
+        success:false,
       };
     }
     const matchPassword = await bcrypt.compare(password, checkUser.password);
@@ -28,6 +33,7 @@ export const userLogin_Service = async (data) => {
         userLogin_Input,
         message: "Worng Passward",
         statusCode: StatusCodes.BAD_REQUEST,
+        success:false,
       };
     }
     const user = {userId:checkUser._id}
@@ -37,6 +43,7 @@ export const userLogin_Service = async (data) => {
       { expiresIn: "1d" },
     );
     return {
+      statusCode:StatusCodes.CREATED,
         userLogin_Input,
         success:true,
         createToken,

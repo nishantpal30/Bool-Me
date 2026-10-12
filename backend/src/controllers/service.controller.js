@@ -4,9 +4,10 @@ import Service from "../db/models/service.js";
 export const listof_Services = async (req, res) => {
   try {
     const services = await Service.find({
-      userId: req.user.Id,
+      userId: req.user?.id?.userId,
       isDeleted: { $ne: true },
-    });
+    }).sort({createdAt:-1});
+    console.log(services);
     return res.status(StatusCodes.CREATED).json(services);
   } catch (error) {
     return res.status(StatusCodes.BAD_REQUEST).json({
@@ -19,13 +20,16 @@ export const listof_Services = async (req, res) => {
 export const create_services = async (req, res) => {
   try {
     const { name, duration, price, description, icon } = req.body;
+   console.log("BODY:", req.body);
     if (!name || !duration) {
+    console.log(">>> VALIDATION BLOCK FIRED. name:", name, "duration:", duration);
       return res.status(StatusCodes.BAD_REQUEST).json({
         message: "Service name and duration is required!!",
       });
     }
+     
     const service = await Service.create({
-      userId: req.user.id,
+      userId: req.user?.id?.userId,
       name,
       duration,
       price: price || 0,
@@ -40,7 +44,7 @@ export const create_services = async (req, res) => {
     });
   } catch (error) {
      return res.status(StatusCodes.BAD_REQUEST).json({
-        message: "Service name and duration is required!!",
+        message: "Service is not creted!!",
       });
   }
 };
@@ -59,7 +63,7 @@ export const updateService = async (req, res) => {
     });
 
     const service = await Service.findOneAndUpdate(
-      { _id: req.params.id, userId: req.user.id, isDeleted: { $ne: true } },
+      { _id: req.params.id, userId: req.user?.id?.userId, isDeleted: { $ne: true } },
       updates,
       { new: true }
     );
@@ -77,10 +81,11 @@ export const updateService = async (req, res) => {
 export const deleteService = async (req , res)=>{
 try {
     const service = await Service.findOneAndUpdate(
-        {_id:req.params.id,userid:req.user.id,isDeleted:{$ne:true}},
+     
+        {_id:req.params.id,userId:req.user?.id?.userId,isDeleted:{$ne:true}},
         {isDeleted:true,isActive:false},
         {new:true}
-    );
+    ); 
     if(!service){
         return res
         .status(StatusCodes.BAD_REQUEST)

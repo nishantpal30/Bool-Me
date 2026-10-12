@@ -5,26 +5,16 @@ import Withdrawal from '../db/models/withdrawl.js';
 import { getWalletSummary } from '../services/wallet.service.js';
 
 
-/**
- * Casts a string to a Mongoose ObjectId type.
- */
+
 const toObjectId = (id) => new mongoose.Types.ObjectId(String(id));
 
-/**
- * Masks an account number by returning only the last 4 digits.
- */
+
 const maskAccountNumber = (accountNumber = '') => {
   const digits = String(accountNumber).replace(/\D/g, '');
   return digits.slice(-4);
 };
 
-/**
- * Retrieves an overview of the user's payments including payout details,
- * total wallet balance summary, and recent transactions/withdrawals.
- * 
- * @param {Object} req - Express request object.
- * @param {Object} res - Express response object.
- */
+
 export const getPaymentOverview = async (req, res) => {
   try {
     const userId = toObjectId(req.user.id);
@@ -46,13 +36,7 @@ export const getPaymentOverview = async (req, res) => {
   }
 };
 
-/**
- * Updates the user's payout (bank/UPI) details.
- * Determines if the payout profile is complete based on provided information.
- * 
- * @param {Object} req - Express request object containing payout details in body.
- * @param {Object} res - Express response object.
- */
+
 export const updatePayoutDetails = async (req, res) => {
   try {
     const { accountHolderName, bankName, accountNumber, ifsc, upiId } = req.body;
@@ -83,14 +67,7 @@ export const updatePayoutDetails = async (req, res) => {
   }
 };
 
-/**
- * Processes a withdrawal request from the user's available wallet balance.
- * Validates minimum amount, available balance, and complete payout details.
- * Creates a withdrawal record and a pending hold transaction.
- * 
- * @param {Object} req - Express request object containing the withdrawal amount.
- * @param {Object} res - Express response object.
- */
+
 export const requestWithdrawal = async (req, res) => {
   try {
     const userId = toObjectId(req.user.id);

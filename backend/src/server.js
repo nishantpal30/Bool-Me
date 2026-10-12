@@ -14,13 +14,16 @@ import publicBookingRoutes from "./routers/public.routes.js"
 // Middleware 
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:5173", // exact origin, NOT "*"
+    credentials: true,               // allow cookies / credentials
+  }));
 app.use(express.json());
 app.use(cookieParser());
 
 // routes
 app.use("/api/auth",authrouter);
-app.use("/api/service",serviceRoutes);
+app.use("/api/services",serviceRoutes);
 app.use("/api/availability",availabilityRoutes);
 app.use("api/calendar",calendarRoutes);
 app.use("api/booking",bookingRoutes);

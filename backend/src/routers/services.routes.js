@@ -5,8 +5,8 @@ import { create_services, deleteService, listof_Services, updateService } from "
 
 const serviceRoutes = express.Router();
 serviceRoutes.get("/", isAuthenticated, listof_Services);
-serviceRoutes.get("/", isAuthenticated, create_services);
-serviceRoutes.get("/:id", isAuthenticated, updateService);
-serviceRoutes.get("/:id", isAuthenticated, deleteService);
+serviceRoutes.post("/", isAuthenticated, create_services);
+serviceRoutes.patch("/:id", isAuthenticated, updateService);
+serviceRoutes.delete("/:id", isAuthenticated, deleteService);
 
 export default serviceRoutes;
