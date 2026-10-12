@@ -25,6 +25,7 @@ export const listAvailabilty = async (req, res) => {
 export const saveAvailability = async (req, res) => {
   try {
     const { dayofWeek, slots } = req.body;
+    console.log(dayofWeek,slots);
     if (dayofWeek === undefined || dayofWeek < 0 || dayofWeek > 6) {
       return res.status(StatusCodes.BAD_REQUEST).json({
         message: "Valid day of week is required",

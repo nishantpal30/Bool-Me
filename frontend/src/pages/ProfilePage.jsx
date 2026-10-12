@@ -47,6 +47,7 @@ const [message,setMessage] = useState(getCalendarMessage(calendarNotice));
 const [copyMessage,setCopyMessage] = useState("");
 
 const publicLink = user?.slug ?`${window.location.origin}/book/${user.slug}`:`${window.location.origin}`;
+// console.log("Link",user)
 const dynamicThemeUI = getBrandThemeStyle(form.brandTheme);
 const brandStyleVars = {
     "--brand-accent":form.brandAccent || dynamicThemeUI.accent,
@@ -63,7 +64,7 @@ const previewBannerImage = themeBannerImages[form.brandTheme] || greenBanner;
 
       try {
         const { data } = await getMe();
-        console.log(data)
+        // console.log(data)
         const nextUser = data?.user;
 
         if (!nextUser) {

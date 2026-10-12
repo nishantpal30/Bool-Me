@@ -32,7 +32,7 @@ const dayIcons = [
   CalendarDays,
   CalendarDays,
   CalendarDays,
-  Sun,
+  Sparkle,
 ];
 
 const defaultSlot = { startTime: "09:00", endTime: "17:00" };
@@ -52,7 +52,7 @@ const AvailabilityPage = () => {
       : [defaultSlot];
   };
   const currentDaySummary = useMemo(
-    () => availability.find((item) => item.dayOfWeek === selectedDay),
+    () => availability.find((item) => item.dayofWeek === selectedDay),
     [availability, selectedDay],
   );
 
@@ -136,22 +136,22 @@ const AvailabilityPage = () => {
   const removeSlot = (index) => {
     setSlots((prev) => prev.filter((_, slotIndex) => slotIndex !== index));
   };
-
+// console.log(days[selectedDay])
   const handleSave = async () => {
     setLoading(true);
     setMessage("");
-
+   const day = selectedDay;
     try {
       const { data } = await saveAvailability({
-        dayOfWeek: selectedDay,
+        dayofWeek:day ,
         slots,
       });
       setAvailability((prev) => {
         const withoutDay = prev.filter(
-          (item) => item.dayOfWeek !== selectedDay,
+          (item) => item.dayofWeek !== selectedDay,
         );
         return [...withoutDay, data.availability].sort(
-          (a, b) => a.dayOfWeek - b.dayOfWeek,
+          (a, b) => a.dayofWeek - b.dayofWeek,
         );
       });
       showToast("Availability saved");
@@ -224,22 +224,23 @@ const AvailabilityPage = () => {
                       }
                     >
                       <Icon className={s.dayIcon} />
-                      <span
-                        className={
-                          isSelected ? s.dayLabelActive : s.dayLabelInactive
-                        }
-                      >
-                        {day}
-                      </span>
                     </div>
-                    {isSelected ? (
+                    <span
+                      className={
+                        isSelected ? s.dayLabelActive : s.dayLabelInactive
+                      }
+                    >
+                      {day}
+                    </span>
+                    
+                   
+                  </div>
+                  {isSelected ? (
                       <div className={s.dayCheckActiveContainer}>
                         <BadgeCheck className={s.dayCheckActiveIcon} />
                       </div>
                     ) : (
-                      <div className={s.dayIconContainerInactive}></div>
-                    )}
-                  </div>
+                      <div className={s.dayIconContainerInactive}></div> )}
                 </button>
               );
             })}

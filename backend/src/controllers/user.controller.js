@@ -87,7 +87,7 @@ export const verifyRegistration_OTP = async (req, res) => {
 export const loginUser = async (req, res) => {
   try {
     const loginUser_Response = await userLogin_Service(req.body);
-    console.log(loginUser_Response);
+    // console.log(loginUser_Response);
     if (loginUser_Response.success == true) {
       return res
         .status(loginUser_Response.statusCode)
@@ -126,7 +126,7 @@ export const updateProfile = async (req, res) => {
     } = req.body;
 
     const user = await User.findById(req.user?.id?.userId);
-    console.log(user);
+    // console.log(user);
     
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -164,8 +164,8 @@ export const updateProfile = async (req, res) => {
 export const getMe = async (req, res) => {
   try {
     
-    const user = await User.findById(req.user?.id?.userId).select("password");
-    console.log(user)
+    const user = await User.findById(req.user?.id?.userId).select("-password");
+  //  console.log( "user",user)
     if (!user) {
       return res.status(404).json({
         message: "user not found",
