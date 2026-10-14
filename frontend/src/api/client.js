@@ -1,10 +1,10 @@
 import axios from "axios";
 
 const client = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || "http://localhost:8080/api",
+    baseURL: import.meta.env.VITE_API_URL || "https://bool-me.onrender.com/api",
     withCredentials: true,           
 });
-
+// http://localhost:8080/
 // (Optional) CSRF header for non-GET requests, if backend requires it
 client.interceptors.request.use((config) => {
     // Regex-based extraction — handles "=" in the value
