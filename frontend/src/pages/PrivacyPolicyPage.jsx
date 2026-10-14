@@ -81,7 +81,7 @@ export default function PrivacyPolicyPage() {
                   Payment Information:
                 </span>{" "}
                 Payment details are processed securely by our third-party
-                payment processor (Stripe). We do not store your full payment
+                payment processor (Razorpay). We do not store your full payment
                 card information on our servers.
               </li>
               <li>
@@ -137,8 +137,8 @@ export default function PrivacyPolicyPage() {
             </p>
             <ul className="list-disc list-inside space-y-2 text-[15px] text-slate-600 leading-relaxed ml-2">
               <li>
-                <span className="font-semibold text-slate-700">Stripe:</span>{" "}
-                For processing payments securely. Stripe's privacy policy
+                <span className="font-semibold text-slate-700">Razorpay:</span>{" "}
+                For processing payments securely.Razorpay privacy policy
                 governs payment data handling.
               </li>
               <li>
@@ -217,7 +217,7 @@ export default function PrivacyPolicyPage() {
               <li>Request deletion of your personal data</li>
               <li>Withdraw consent for data processing at any time</li>
               <li>
-                Disconnect third-party integrations (Google Calendar, Stripe)
+                Disconnect third-party integrations (Google Calendar,Razorpay)
                 from your profile settings
               </li>
             </ul>

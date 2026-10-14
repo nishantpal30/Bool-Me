@@ -450,7 +450,7 @@ export default function DashboardPage() {
   }, []);
 // console.log(setUser)
   const publicLink = user?.slug ?`${window.location.origin}/book/${user.slug}`:`${window.location.origin}`;
-  console.log(user)
+  // console.log(user)
   
 
   const confirmedBookings = bookings.filter(

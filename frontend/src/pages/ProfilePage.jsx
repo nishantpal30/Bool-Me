@@ -12,7 +12,8 @@ import purpleBanner from "../assets/purple.png";
 import redBanner from "../assets/red.png";
 import whiteBanner from "../assets/white.png";
 import yellowBanner from "../assets/yellow.png";
-import stripeLogo from "../assets/stripeicon.jpeg";
+// import stripeLogo from "../assets/stripeicon.jpeg";
+import razorpay from "../assets/razorpay.svg";
 import { brandThemeOptions,getBrandThemeStyle,profilePageStyles as s } from "../utils/dummystyle";
 import Cookies from "js-cookie";
 
@@ -217,23 +218,23 @@ const previewBannerImage = themeBannerImages[form.brandTheme] || greenBanner;
 
           {/* Integrations Grid */}
           <div className={s.integrationsGrid}>
-            {/* Stripe */}
+            {/* Razorpay */}
             <div className={s.integrationCard}>
               <div className={s.integrationHeader}>
                 <div className={s.integrationLogoBox}>
                   <img
-                    src={stripeLogo}
-                    alt="Stripe"
+                    src={razorpay}
+                    alt="Razorpay"
                     className={s.integrationLogoImg}
                   />
                 </div>
-                <span className={s.integrationLabel}>Stripe</span>
+                <span className={s.integrationLabel}>Razorpay</span>
               </div>
               <h4 className={s.integrationStatusConfigured}>
                 Configured <BadgeCheck className={s.integrationCheckIcon} />
               </h4>
               <p className={s.integrationDesc}>
-                Collect payments securely via Stripe.
+                Collect payments securely via Razorpay.
               </p>
               <div className={s.integrationInfoPill}>
                 Platform payment gateway
@@ -470,7 +471,7 @@ const previewBannerImage = themeBannerImages[form.brandTheme] || greenBanner;
                 <div>
                   <h5 className={s.featureTitle}>Secure Payments</h5>
                   <p className={s.featureText}>
-                    Powered by Stripe for safe transactions.
+                    Powered by Razorpay for safe transactions.
                   </p>
                 </div>
               </div>

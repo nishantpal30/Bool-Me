@@ -277,7 +277,7 @@ const PaymentPage = () => {
             </h2>
 
             <p className={s.payoutDescription}>
-              We store only masked account information. Use Stripe Connect or a
+              We store only masked account information. Use Razorpay Connect or a
               payout provider before moving real money in production.
             </p>
 

@@ -102,7 +102,7 @@ export default function TermsOfServicePage() {
             </p>
             <ul className="list-disc list-inside space-y-2 text-[15px] text-slate-600 leading-relaxed ml-2">
               <li>
-                All payments are processed securely through Stripe. BookMe does
+                All payments are processed securely through Razorpay. BookMe does
                 not directly handle or store credit card information.
               </li>
               <li>
@@ -148,9 +148,9 @@ export default function TermsOfServicePage() {
                 OTP verification emails to customers.
               </li>
               <li>
-                <span className="font-semibold text-slate-700">Stripe:</span>{" "}
+                <span className="font-semibold text-slate-700">Razorpay:</span>{" "}
                 Required for processing payments. By using payment features, you
-                also agree to Stripe's Terms of Service.
+                also agree to Razorpay Terms of Service.
               </li>
             </ul>
             <p className="text-[15px] text-slate-600 leading-relaxed mt-3">
