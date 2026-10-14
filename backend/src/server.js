@@ -12,10 +12,13 @@ import paymentRoutes from "./routers/payment.routes.js";
 import publicBookingRoutes from "./routers/public.routes.js"
 
 // Middleware 
-
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://bool-me-neon.vercel.app'
+];
 const app = express();
 app.use(cors({
-    origin: "http://localhost:5173", // exact origin, NOT "*"
+    origin: allowedOrigins, // exact origin, NOT "*"
     credentials: true,               // allow cookies / credentials
   }));
 app.use(express.json());
