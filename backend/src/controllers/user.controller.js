@@ -93,8 +93,10 @@ export const loginUser = async (req, res) => {
         .status(loginUser_Response.statusCode)
         .cookie("token", loginUser_Response.createToken, {
           maxAge: 1 * 24 * 60 * 60 * 1000,
-          httpOnly: false,
-          sameSite: "strict",
+          httpOnly: true,
+          secure: true, 
+          sameSite: "none",
+          path: "/",
         })
         .json({
           success: loginUser_Response.success,
@@ -127,7 +129,7 @@ export const updateProfile = async (req, res) => {
 
     const user = await User.findById(req.user?.id?.userId);
     // console.log(user);
-    
+
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -163,9 +165,8 @@ export const updateProfile = async (req, res) => {
 
 export const getMe = async (req, res) => {
   try {
-    
     const user = await User.findById(req.user?.id?.userId).select("-password");
-  //  console.log( "user",user)
+    //  console.log( "user",user)
     if (!user) {
       return res.status(404).json({
         message: "user not found",

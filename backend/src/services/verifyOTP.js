@@ -27,7 +27,7 @@ export const verifyOTP = async ({
     consumeAt: null,
     expiresAt: { $gt: new Date() },
   }).sort({ createdAt: -1 });
-  console.log(userDetails)
+  // console.log(userDetails)
   // this sort function sort the opt in newest to oldest (descending order)
   if (!userDetails) {
     return { verified: false, message: "OTP experied or not found" };
