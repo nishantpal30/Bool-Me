@@ -5,7 +5,9 @@ import { getDayofWeek ,minutesTotime,timeTOminutes} from "../utils/time.js";
 
 export const generateSlots = async ({userId,service,date})=>{
     const dayofWeek = getDayofWeek(date);
+    // console.log(dayofWeek)
     const availability = await Availability.findOne({userId,dayofWeek});
+    // console.log(availability)
     if(!availability || availability.slots.length===0){
         return [];
     };
@@ -21,9 +23,30 @@ export const generateSlots = async ({userId,service,date})=>{
         ],
 
     });
+    // console.log(bookings)
+    console.log(availability.slots)
+//     console.log({
+//         name:"okk",
+//   slotWindows: availability?.slots?.length,
+//   duration: service.duration,
+//   durationType: typeof service.duration,
+//   firstWindow: availability?.slots?.[0],
+//   bookingsCount: bookings.length,
+// });
+
     const slots = [];
     availability.slots.forEach((window)=> { 
+        
+//   console.log("WINDOW", {
+//     raw: window,
+//     cursor,
+//     end,
+//     duration: service.duration,
+//     durationType: typeof service.duration,
+//     iterations: Math.floor((end - cursor) / service.duration),
+//   });
         let cursor = timeTOminutes(window.startTime);
+        // console.log(cursor)
         const end = timeTOminutes(window.endTime);
         while(cursor+service.duration <= end){
             const startTime = minutesTotime(cursor);

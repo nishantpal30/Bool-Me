@@ -14,6 +14,8 @@ const isAuthenticated = async (req, res, next) => {
 
     req.user = { id: decode.userId };  
     // console.log("req.user",req.user) 
+    // console.log("booking")
+    // console.log("payments")
     
     next();
   } catch (error) {

@@ -10,7 +10,7 @@ import { timeOverlap } from "../utils/overlap.js";
 
 export const listofBooking = async (req , res) =>{
     try {
-        const query = { userId: req.user.id };
+        const query = { userId:req.user?.id?.userId };
         let bookingStatus = req.query.status;
         if(bookingStatus){
             if(bookingStatus==="rescheduled"){
@@ -31,7 +31,7 @@ export const listofBooking = async (req , res) =>{
         .populate('serviceId', 'name duration price')
         .sort({ createdAt: -1 })
         .lean(),
-      User.findById(req.user.id).select('name businessName').lean(),
+      User.findById(req.user?.id?.userId).select('name businessName').lean(),
     ]);
 
     const bookingsWithCalendarUrls = bookings.map((booking) => {
@@ -64,7 +64,7 @@ export const updateBookingStatus = async (req, res) => {
     }
 
     const booking = await Booking.findOneAndUpdate(
-      { _id: req.params.id, userId: req.user.id },
+      { _id: req.params.id, userId: req.user?.id?.userId},
       { status },
       { new: true }
     ).populate('serviceId', 'name duration price');
@@ -73,7 +73,7 @@ export const updateBookingStatus = async (req, res) => {
       return res.status(404).json({ message: 'Booking not found' });
     }
 
-    const business = await User.findById(req.user.id);
+    const business = await User.findById(req.user?.id?.userId);
     if (business && status === 'cancelled') {
       try {
         await cancelBookingCalendarEvent({ business, booking });
@@ -107,14 +107,14 @@ export const rescheduleBooking = async (req, res) => {
       return res.status(400).json({ message: 'Date, start time, and end time are required' });
     }
 
-    const booking = await Booking.findOne({ _id: req.params.id, userId: req.user.id });
+    const booking = await Booking.findOne({ _id: req.params.id, userId: req.user?.id?.userId});
     if (!booking) {
       return res.status(404).json({ message: 'Booking not found' });
     }
 
     const conflictingBookings = await Booking.find({
       _id: { $ne: booking._id },
-      userId: req.user.id,
+      userId: req.user?.id?.userId,
       date,
       status: { $nin: ['cancelled', 'payment_failed'] },
     });
@@ -135,7 +135,7 @@ export const rescheduleBooking = async (req, res) => {
     booking.rescheduleCount = (booking.rescheduleCount || 0) + 1;
 
     const [business, service] = await Promise.all([
-      User.findById(req.user.id),
+      User.findById(req.user?.id?.userId),
       Service.findById(booking.serviceId),
     ]);
 

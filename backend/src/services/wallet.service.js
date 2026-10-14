@@ -41,7 +41,7 @@ const [rows , withdrawalRows] = await Promise.all([
         {
             $group:{
                 _id:`$status`,
-                total:{$sun:`$amount`},
+                total:{$sum:`$amount`},
             }
         }
     ])

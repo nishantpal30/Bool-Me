@@ -14,6 +14,7 @@ import { normalizedEmail } from "../utils/normalizedEMail.js";
 import { emailOTP } from "../services/emailOTP.js";
 import { verifyOTP } from "../services/verifyOTP.js";
 
+
 // BUSINESS
 const getBusinessBySlug = async (slug) => {
   return User.findOne({
@@ -63,7 +64,7 @@ const findActiveSlotBookings = ({ userId, date }) => {
 export const getPublicBusiness = async (req, res) => {
   try {
     const { slug } = req.params;
-
+// console.log(req.params)
     const business = await getBusinessBySlug(slug);
 
     if (!business) {
@@ -97,8 +98,10 @@ export const getPublicBusiness = async (req, res) => {
 // GET PUBLIC SLOTS
 export const getPublicSlots = async (req, res) => {
   try {
-    const { date, serviceId } = req.body;
-
+    
+     const body = req.body ?? {};
+    const { serviceId, date } = body.params ?? body;
+// console.log(serviceId,date)
     if (!date || !serviceId) {
       return res.status(400).json({
         message: "Date and service are required",
@@ -106,7 +109,7 @@ export const getPublicSlots = async (req, res) => {
     }
 
     const { slug } = req.params;
-
+// console.log(slug)
     const business = await getBusinessBySlug(slug);
 
     if (!business) {
@@ -135,7 +138,7 @@ export const getPublicSlots = async (req, res) => {
       service,
       date,
     });
-
+// console.log(slots)
     return res.json({
       slots,
     });
@@ -151,7 +154,7 @@ export const getPublicSlots = async (req, res) => {
 export const requestPublicBookingOtp = async (req, res) => {
   try {
     const { customerEmail } = req.body;
-
+console.log(customerEmail)
     const userEmail = normalizedEmail(customerEmail);
 
     if (!userEmail) {
@@ -191,7 +194,7 @@ export const requestPublicBookingOtp = async (req, res) => {
 export const verifyPublicBookingOtp = async (req, res) => {
   try {
     const { customerEmail, emailOtp } = req.body;
-
+// console.log(customerEmail,emailOtp)
     if (!customerEmail || !emailOtp) {
       return res.status(400).json({
         message: "Email and OTP are required",
@@ -204,7 +207,7 @@ export const verifyPublicBookingOtp = async (req, res) => {
       emailOtp,
       consume: false,
     });
-
+// console.log(otpResult)
     if (!otpResult.verified) {
       return res.status(400).json({
         message: otpResult.message || "Invalid OTP",
@@ -279,7 +282,7 @@ export const createPublicBooking = async (req, res) => {
       userId: business._id,
       date,
     });
-
+// console.log("public",bookings)
     const hasConflict = bookings.some((booking) =>
       timeOverlap(startTime, endTime, booking.startTime, booking.endTime),
     );
@@ -303,14 +306,14 @@ export const createPublicBooking = async (req, res) => {
     }
 
     const amount = toRzpAmount(service.price);
-
+console.log(amount)
     const { platformFeeAmount, providerPayoutAmount } =
       calculatePlatformFee(amount);
 
     const currency = "inr";
 
     const rzp = amount > 0 ? getrzp() : null;
-
+// console.log("Payment",rzp)
     if (amount > 0 && !rzp) {
       return res.status(503).json({
         message: "Razorpay payments are not configured yet",
@@ -445,13 +448,13 @@ const verifyRazorpaySignature = ({ orderId, paymentId, signature }) => {
     !orderId ||
     !paymentId ||
     !signature ||
-    !process.env.RAZORPAY_KEY_SECRET
+    !process.env.RZRAZORPAY_KEY_SECRET
   ) {
     return false;
   }
 
   const generatedSignature = crypto
-    .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+    .createHmac("sha256", process.env.RZRAZORPAY_KEY_SECRET)
     .update(`${orderId}|${paymentId}`)
     .digest("hex");
 
@@ -500,9 +503,9 @@ const confirmPaidBooking = async ({ booking, business, service }) => {
     );
   }
 
-  // ---------------------------------------------
+
   // UPDATE PAYMENT STATUS
-  // ---------------------------------------------
+ 
 
   booking.status = "confirmed";
   booking.paymentStatus = "paid";

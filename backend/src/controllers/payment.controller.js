@@ -17,7 +17,8 @@ const maskAccountNumber = (accountNumber = '') => {
 
 export const getPaymentOverview = async (req, res) => {
   try {
-    const userId = toObjectId(req.user.id);
+    const userId = toObjectId(req.user?.id?.userId);
+    console.log(userId)
     const [user, summary, transactions, withdrawals] = await Promise.all([
       User.findById(userId).select('payoutDetails'),
       getWalletSummary(userId),
@@ -56,7 +57,7 @@ export const updatePayoutDetails = async (req, res) => {
     };
 
     const user = await User.findByIdAndUpdate(
-      req.user.id,
+      req.user?.id?.userId,
       { payoutDetails },
       { new: true }
     ).select('payoutDetails');
@@ -70,7 +71,7 @@ export const updatePayoutDetails = async (req, res) => {
 
 export const requestWithdrawal = async (req, res) => {
   try {
-    const userId = toObjectId(req.user.id);
+    const userId = toObjectId(req.user?.id?.userId);
     const amount = Math.round(Number(req.body.amount || 0));
     const user = await User.findById(userId).select('payoutDetails');
 

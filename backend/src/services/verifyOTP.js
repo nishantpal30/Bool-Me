@@ -9,8 +9,9 @@ export const verifyOTP = async ({
   emailOtp,
   consume = false,
 }) => {
+  // console.log(email,emailOtp)
   const normalEmail = normalizedEmail(email);
-
+// console.log(normalEmail ,emailOtp)
   if (!normalEmail || !emailOtp) {
     return { verified: false, message: "Email and OTP are required" };
   }
@@ -19,13 +20,14 @@ export const verifyOTP = async ({
   //   console.log(emailOtp)
   // console.log("normalEmail:", normalEmail);
   // console.log("purpose:", purpose);
-
+// console.log(purpose)
   const userDetails = await EmailOtp.findOne({
     email: normalEmail,
     purpose,
     consumeAt: null,
-    expireAt: { $gt: new Date() },
+    expiresAt: { $gt: new Date() },
   }).sort({ createdAt: -1 });
+  console.log(userDetails)
   // this sort function sort the opt in newest to oldest (descending order)
   if (!userDetails) {
     return { verified: false, message: "OTP experied or not found" };

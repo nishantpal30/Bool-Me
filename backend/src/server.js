@@ -25,9 +25,9 @@ app.use(cookieParser());
 app.use("/api/auth",authrouter);
 app.use("/api/services",serviceRoutes);
 app.use("/api/availability",availabilityRoutes);
-app.use("api/calendar",calendarRoutes);
-app.use("api/booking",bookingRoutes);
-app.use("api/payments",paymentRoutes);
+app.use("/api/calendar",calendarRoutes);
+app.use("/api/booking",bookingRoutes);
+app.use("/api/payments",paymentRoutes);
 app.use("/api/public", publicBookingRoutes);
 
 

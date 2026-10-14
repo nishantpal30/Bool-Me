@@ -8,7 +8,10 @@ import {
 
 const bookingRoutes = express.Router();
 
+
 bookingRoutes.get("/", isAuthenticated, listofBooking);
-bookingRoutes.post("/bookingstatus", isAuthenticated, updateBookingStatus);
-bookingRoutes.post("/reschedulebooking", isAuthenticated, rescheduleBooking);
+bookingRoutes.patch("/:id/status", isAuthenticated, updateBookingStatus);
+bookingRoutes.patch("/:id/reschedule", isAuthenticated, rescheduleBooking);
+
+
 export default bookingRoutes;
