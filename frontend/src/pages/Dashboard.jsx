@@ -432,12 +432,13 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const loadDashboard = async () => {
+      
       if (!Cookies.get("token")) return;
       const [meResponse, servicesResponse, bookingsResponse, paymentsResponse] =
         await Promise.all([
           getMe(),
           listServices(),
-          listBookings(),
+          listBooking(),
           getPaymentOverview(),
         ]);
       setUser(meResponse.data.user);
@@ -447,10 +448,11 @@ export default function DashboardPage() {
     };
     loadDashboard().catch(() => {});
   }, []);
+// console.log(setUser)
+  const publicLink = user?.slug ?`${window.location.origin}/book/${user.slug}`:`${window.location.origin}`;
+  console.log(user)
+  
 
-  const publicLink = user?.slug
-    ? `${window.location.origin}/book/${user.slug}`
-    : "";
   const confirmedBookings = bookings.filter(
     (booking) => booking.status === "confirmed",
   );

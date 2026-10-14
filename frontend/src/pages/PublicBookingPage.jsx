@@ -1,11 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
+
 import {
   createPublicBooking,
   getPublicBusiness,
   getPublicSlots,
   requestPublicBookingOtp,
   verifyPublicBookingOtp,
+  verifyPublicBookingPayment,
+  cancelPublicBookingPayments,
 } from "../api/public";
 import {
   Clock,
@@ -166,6 +169,7 @@ export default function PublicBookingPage() {
           serviceId: form.serviceId,
           date: form.date,
         });
+       
         setSlots(data.slots || []);
       } catch (error) {
         setSlots([]);
@@ -209,6 +213,7 @@ export default function PublicBookingPage() {
   };
 
   const sendBookingOtp = async () => {
+    console.log(form.customerEmail)
     if (!form.customerEmail) {
       setMessage("Enter your email first");
       return;
@@ -244,24 +249,74 @@ export default function PublicBookingPage() {
 
     try {
       const { data } = await createPublicBooking(slug, {
-        ...form,
-        startTime: selectedSlot.startTime,
-        endTime: selectedSlot.endTime,
-      });
+  ...form,
+  startTime: selectedSlot.startTime,
+  endTime: selectedSlot.endTime,
+});
 
-      if (data.checkoutUrl) {
-        window.location.href = data.checkoutUrl;
-        return;
+// Free booking – already confirmed by backend
+if (!data.razorpayOrderId) {
+  setMessage(
+    data.customerCalendarUrl
+      ? "Your booking is confirmed. You can add it to Google Calendar below."
+      : "Your booking is confirmed",
+  );
+  setCalendarUrl(data.customerCalendarUrl || "");
+  setSelectedSlot(null);
+  return;
+}
+const loadRazorpay = () =>
+  new Promise((resolve) => {
+    if (window.Razorpay) return resolve(true);
+    const s = document.createElement("script");
+    s.src = "https://checkout.razorpay.com/v1/checkout.js";
+    s.onload = () => resolve(true);
+    document.body.appendChild(s);
+  });
+
+await loadRazorpay();
+// Paid booking – open Razorpay Checkout with the order ID
+const rzp = new window.Razorpay({
+  key: data.razorpayKeyId,
+  amount: data.amount,             // already in paise
+  currency: data.currency,
+  name: business?.businessName || "Booking",
+  description: selectedService?.name,
+  order_id: data.razorpayOrderId,
+  prefill: { name: form.customerName, email: form.customerEmail },
+    config: {
+  display: {
+    hide: [
+      {
+        method: "upi",
+        flows: ["collect"]
       }
-
-      setMessage(
-        data.customerCalendarUrl
-          ? "Your booking is confirmed. You can add it to Google Calendar below."
-          : "Your booking is confirmed",
-      );
-      setCalendarUrl(data.customerCalendarUrl || "");
-      setSelectedSlot(null);
-      setOtpVerified(true);
+    ]
+  }
+},
+  handler: async (response) => {
+    try {
+      const { data: verify } = await verifyPublicBookingPayment(slug, {
+        bookingId: data.bookingId,
+        razorpay_order_id: response.razorpay_order_id,
+        razorpay_payment_id: response.razorpay_payment_id,
+        razorpay_signature: response.razorpay_signature,
+      });
+      setMessage("Payment successful. Booking confirmed.");
+      setCalendarUrl(verify.booking?.customerCalendarUrl || "");
+    } catch (err) {
+      setMessage(err.response?.data?.message || "Payment verification failed");
+    }
+  },
+  modal: {
+    ondismiss: () => {
+      // user closed the popup → release the slot hold
+      cancelPublicBookingPayments(data.bookingId).catch(() => {});
+    },
+  },
+  theme: { color: accent },
+});
+rzp.open();
     } catch (error) {
       setMessage(error.response?.data?.message || "Could not create booking");
     } finally {
@@ -316,7 +371,7 @@ export default function PublicBookingPage() {
             </div>
 
             <h1 className={s.businessName}>
-              {business?.businessName || business?.name || "Mental Clinic"}
+              {business?.businessName || business?.name || " "}
             </h1>
             {business?.businessDescription && (
               <p className={s.businessDesc}>{business.businessDescription}</p>
@@ -629,7 +684,7 @@ export default function PublicBookingPage() {
 
               <p className={s.securePaymentText}>
                 <Shield className="h-4 w-4 text-slate-400" />
-                Secure payments powered by Stripe
+                Secure payments powered by Razorpay!!
               </p>
             </div>
 

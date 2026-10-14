@@ -130,7 +130,7 @@ const AuthPage = () => {
         : { email: form.email, password: form.password };
 
       const { data } = await (isRegister ? register(payload) : login(payload));
-      console.log(data.token)
+      // console.log(data.token)
 
       if (data.token) {
         Cookies.set("token", data.token);

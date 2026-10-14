@@ -47,7 +47,7 @@ const [message,setMessage] = useState(getCalendarMessage(calendarNotice));
 const [copyMessage,setCopyMessage] = useState("");
 
 const publicLink = user?.slug ?`${window.location.origin}/book/${user.slug}`:`${window.location.origin}`;
-// console.log("Link",user)
+console.log("Link",user)
 const dynamicThemeUI = getBrandThemeStyle(form.brandTheme);
 const brandStyleVars = {
     "--brand-accent":form.brandAccent || dynamicThemeUI.accent,
